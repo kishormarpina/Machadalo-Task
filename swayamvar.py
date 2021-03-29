@@ -9,7 +9,7 @@ def generateRandoms(n):
             "name" : r
         }
         persons.append(obj)
-    print(persons)
+    # print(persons)
     return persons
 
 def getRound1Scores(persons):
@@ -34,10 +34,7 @@ def getRound3Scores(persons):
         person['round3']['Rahul'] = random.randint(0,60)
     return persons
 def finalChoice(persons):
-    if(len(persons)>0):
-        return persons[random.randint(0,len(persons)-1)]
-    else:
-        return {"name" : "NA"}
+    return persons[random.randint(0,len(persons)-1)]
 
 def swayamvar(candidates):
     print("Begin......")
@@ -50,14 +47,15 @@ def swayamvar(candidates):
         candidate['total1'] = total
         if(candidate['round1']['Family_Personal_Profile']> 15 and candidate['round1']['Aptitude_Test_Business_Acumen']>15 and candidate['round1']['Value_System_Check']> 15 and int(total/3) > 15):
            qualifiedRound1.append(candidate)
-    print("After Round1 test....",len(qualifiedRound1))
+    print("After Round1 test.... qualified",len(qualifiedRound1))
     def get_my_key1(obj):
         return obj['total1']
     qualifiedRound1.sort(key=get_my_key1, reverse=True)
     # print(qualifiedRound1)
-    print("round1 complete..............................")
-
-    r1range = len(qualifiedRound1) if(len(qualifiedRound1) <=7) else 7
+    r1range = len(qualifiedRound1) if(len(qualifiedRound1) <=100) else 100
+    print("round1 complete...., went to Round2..",r1range)
+    if(r1range == 0):
+        return 'NA'
     round2Scores = getRound2Scores(qualifiedRound1[:r1range]) 
     print("Round2 begin......")
     qualifiedRound2 =[]
@@ -67,14 +65,15 @@ def swayamvar(candidates):
         candidate['total2'] = total
         if(candidate['round2']['Personality']> 15 and candidate['round2']['Values_Empathy']>15 and candidate['round2']['Business_Family_Tacticality']> 15 and int(total/3) > 15):
            qualifiedRound2.append(candidate)
-    print("After Round2 test....",len(qualifiedRound2))
+    print("After Round2 test.... qualified",len(qualifiedRound2))
     def get_my_key2(obj):
         return obj['total2']
     qualifiedRound2.sort(key=get_my_key2, reverse=True)
     # print(qualifiedRound2)
-    print("round2 complete..............................")
-
-    r2range = len(qualifiedRound2) if(len(qualifiedRound2) <=5) else 5
+    r2range = len(qualifiedRound2) if(len(qualifiedRound2) <=10) else 10
+    print("round2 complete...., went to Round3..",r2range)
+    if(r2range == 0):
+        return 'NA'
     round3Scores = getRound3Scores(qualifiedRound2[:r2range]) 
     print("Round3 begin......")
     qualifiedRound3 =[]
@@ -83,13 +82,15 @@ def swayamvar(candidates):
         total = candidate['round3']['Parents'] + candidate['round3']['Sibling'] + candidate['round3']['Rahul']
         candidate['total3'] = total
     qualifiedRound3 = round3Scores
-    print("After Round3 test....",len(qualifiedRound3))
+    print("After Round3 test.... qualified",len(qualifiedRound3))
     def get_my_key3(obj):
         return obj['total3']
     qualifiedRound3.sort(key=get_my_key3, reverse=True)
     # print(qualifiedRound3)
-    print("round3 complete..............................")
     r3range = len(qualifiedRound3) if(len(qualifiedRound3) <=3) else 3
+    print("round3 complete... went to finalChoice",r3range)
+    if(r3range == 0):
+        return 'NA'
     winner = finalChoice(qualifiedRound3[:r3range])
     return winner['name']
 
